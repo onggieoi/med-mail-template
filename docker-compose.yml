@@ -1,0 +1,29 @@
+version: "3"
+services:
+    #Database Service
+    dbserver:
+        image: postgres
+        container_name: dbserver
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_USER: ${POSTGRES_USER}
+            PGDATA: /var/lib/postgresql/data/pgdata
+            POSTGRES_DB: ${POSTGRES_DB}
+            TZ: Asia/Ho_Chi_Minh
+        volumes:
+            - ./dbserver/data:/var/lib/postgresql/data/pgdata
+        ports:
+            - ${POSTGRES_PORT_SERVER}:5432
+        networks:
+            - app-network
+
+#Docker Networks
+networks:
+    app-network:
+        driver: bridge
+
+#Volumes
+volumes:
+    dbdata:
+        driver: local
