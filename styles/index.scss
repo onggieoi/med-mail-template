@@ -1,0 +1,20 @@
+@import 'font/roboto';
+
+$sm: 639px;
+$md: 767px;
+$lg: 1023px;
+$xl: 1279px;
+$xxl: 1720px;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-roboto;
+}
+.DraftEditor-root {
+  min-height: 8rem;
+  max-height: 12rem;
+  overflow-y: scroll;
+}

@@ -34,7 +34,7 @@
     ],
     "indent": "off",
     "@typescript-eslint/indent": "off",
-    "dot-notation" : "off",
+    "dot-notation": "off",
     "@typescript-eslint/dot-notation": "off",
     "comma-dangle": [
       "error",
@@ -78,5 +78,9 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["next.config.js", "pages/_document.tsx", "graphql/generated.tsx"]
+  "ignorePatterns": [
+    "next.config.js",
+    "pages/_document.tsx",
+    "graphql/generated.tsx"
+  ]
 }
