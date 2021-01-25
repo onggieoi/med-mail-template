@@ -35,17 +35,16 @@ const Student: React.FC<StudentProps> = ({ student }) => {
 
   useEffect(() => {
     const indexCurrentStudent = students.findIndex((std) => std.id === student.id);
-    // const newStudents = students;
     students[indexCurrentStudent] = state;
 
     setStudents([...students]);
   }, [state]);
 
   return (
-    <div className='border-2 border-theme-3 p-3 my-3' style={{ minWidth: '400px', width: '500px' }}>
-      <TextField label="Name" className='w-full' value={state.name} onChange={handleChangeName} />
-      <TextField label="Email" className='w-full' style={{ margin: '1rem 0' }} value={state.email} onChange={handleChangeEmail} />
-      <TextField label="Deadline" className='w-full' value={state.deadline} onChange={handleChangeDeadLine} />
+    <div className='border-2 border-theme-3 p-3 my-3' style={ { minWidth: '400px', width: '500px' } }>
+      <TextField label="Name" className='w-full' value={ state.name } onChange={ handleChangeName } />
+      <TextField label="Email" className='w-full' style={ { margin: '1rem 0' } } value={ state.email } onChange={ handleChangeEmail } />
+      <TextField label="Deadline" className='w-full' value={ state.deadline } onChange={ handleChangeDeadLine } />
     </div>
   );
 };

@@ -14,7 +14,9 @@ type TestSessionProps = {
 };
 
 const TestSession: React.FC<TestSessionProps> = ({ isShow, onClose }) => {
-  const { subject, setSubject, mailTemplateId } = useContext(MailContext);
+  const {
+    subject, setSubject, mailTemplateId, submit, students, handleChangeTemplate,
+  } = useContext(MailContext);
   const [openMailSession, setMailSession] = useState(false);
 
   const handleCloseMailSession = () => {
@@ -25,20 +27,29 @@ const TestSession: React.FC<TestSessionProps> = ({ isShow, onClose }) => {
     setMailSession(true);
   };
 
+  const createNewMailTemplate = () => {
+    handleChangeTemplate(-1);
+    handleOpenMailTemplate();
+  };
+
+  const handleInvite = () => {
+    students.map(async (student) => {
+      await submit(student);
+    });
+  };
+
   useEffect(() => {
-    if (mailTemplateId !== -1) {
-      setMailSession(true);
-    }
+    if (mailTemplateId !== -1) handleOpenMailTemplate();
   }, [mailTemplateId]);
 
   if (!isShow) return null;
 
   return (
     <div className='grid grid-cols-2 gap-4'>
-      {/* Create Test */}
+      {/* Create Test */ }
       <div className='bg-white shadow-md px-5 py-10 col-span-2 xl:col-span-1'>
         <TextField label="Subject" className='w-full'
-          value={subject} onChange={(e) => setSubject(e.target.value)}
+          value={ subject } onChange={ (e) => setSubject(e.target.value) }
         />
         <SelectQuestion />
         <Students />
@@ -46,7 +57,7 @@ const TestSession: React.FC<TestSessionProps> = ({ isShow, onClose }) => {
         <div className='flex mt-5'>
           <div className='ml-auto'>
             <Button variant="contained" color="primary" className='ml-5'
-              onClick={handleOpenMailTemplate}
+              onClick={ createNewMailTemplate }
             >
               Create New Mail Template
             </Button>
@@ -56,14 +67,18 @@ const TestSession: React.FC<TestSessionProps> = ({ isShow, onClose }) => {
 
         <div className='flex mt-5'>
           <div className='ml-auto'>
-            <Button color="primary" onClick={() => onClose()} >Cancel</Button>
-            <Button variant="contained" color="primary" style={{ marginLeft: '1rem' }}>Invite</Button>
+            <Button color="primary" onClick={ () => onClose() } >Cancel</Button>
+            <Button variant="contained" color="primary" style={ { marginLeft: '1rem' } }
+              onClick={ handleInvite }
+            >
+              Invite
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Mail */}
-      <MailSession isShow={openMailSession} onClose={handleCloseMailSession} />
+      {/* Mail */ }
+      <MailSession isShow={ openMailSession } onClose={ handleCloseMailSession } />
     </div >
   );
 };

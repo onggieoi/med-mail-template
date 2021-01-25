@@ -1,3 +1,5 @@
 /node_modules
 .next
-.env
+/out
+yarn-error.log
+yarn.lock

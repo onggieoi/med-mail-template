@@ -4,28 +4,35 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    const { name, email, text } = req.body;
-
-    const testMail = await nodemailer.createTestAccount();
+    const { to, subject, dataHtml } = req.body;
 
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.googlemail.com',
+      service: 'Gmail',
       auth: {
-        user: testMail.user,
-        pass: testMail.pass,
+        user: `${process.env.USERMAIL}` || '',
+        pass: `${process.env.PASSWORDMAIL}` || '',
       },
     });
 
     const mailOption: Options = {
-      from: `${email}`,
-      to: `${process.env.EMAIL}`,
-      subject: `New mail from ${email}`,
-      html: '',
+      from: 'Your Teacher',
+      to: `${to}`,
+      subject: `${subject}`,
+      html: `${dataHtml}`,
     };
 
-    const result = await transporter.sendMail(mailOption);
-    console.log(result);
-    res.status(200).send(true);
+    try {
+      await transporter.sendMail(mailOption);
+
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ isDone: true }));
+    } catch (error) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ isDone: false }));
+    }
   } else {
     res.status(404).send('Page not Found');
   }
