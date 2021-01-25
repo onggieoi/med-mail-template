@@ -9,8 +9,8 @@ export const questionsEx: IQuestion[] = [
 ];
 
 export const mailTemplateEx: IEmailTemplate[] = [
-  { id: 1, template: '<p>template 1</p>' },
-  { id: 2, template: '<p>template 2</p>' },
-  { id: 3, template: '<p>template 3</p>' },
-  { id: 4, template: '<p>template 4</p>' },
+  { id: 1, name: 'Template 1', template: '<p>template 1</p>' },
+  { id: 2, name: 'Template 2', template: '<p>template 2</p>' },
+  { id: 3, name: 'Template 3', template: '<p>template 3</p>' },
+  { id: 4, name: 'Template 4', template: '<p>template 4</p>' },
 ];

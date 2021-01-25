@@ -8,6 +8,8 @@ import {
 } from '@material-ui/icons';
 import clsx from 'clsx';
 
+import ProgressBar from 'components/progress';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -135,6 +137,9 @@ const Layout = ({ children }) => {
           [classes.contentShift]: open,
         })}
       >
+
+        <ProgressBar />
+
         <div className={classes.drawerHeader} />
         {children}
       </main>

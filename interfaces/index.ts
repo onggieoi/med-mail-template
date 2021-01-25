@@ -12,5 +12,6 @@ export interface IStudent {
 
 export interface IEmailTemplate {
   id: number;
+  name: string;
   template: string;
 }

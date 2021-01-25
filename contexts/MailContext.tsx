@@ -1,6 +1,8 @@
+import React, {
+  createContext, useEffect, useState,
+} from 'react';
 import { convertToHTML } from 'draft-convert';
 import { ContentState, EditorState, convertFromHTML } from 'draft-js';
-import React, { createContext, useEffect, useState } from 'react';
 
 import { IEmailTemplate, IStudent } from 'interfaces';
 
@@ -88,12 +90,13 @@ export const MailProvider = ({ children }) => {
     setQuestion(val);
   };
 
-  const handleSaveMailTemplate = () => {
+  const handleSaveMailTemplate = (name: string) => {
     const crtTemplateIndex = mailTemplates.findIndex((template) => template.id === mailTemplateId);
 
     if (crtTemplateIndex !== -1) {
       mailTemplates[crtTemplateIndex] = {
         id: mailTemplateId,
+        name,
         template: dataHtml,
       };
 
@@ -101,6 +104,7 @@ export const MailProvider = ({ children }) => {
     } else {
       const newTemplate: IEmailTemplate = {
         id: mailTemplates.length + 1,
+        name: '',
         template: dataHtml,
       };
 
@@ -125,14 +129,14 @@ export const MailProvider = ({ children }) => {
       }),
     });
 
-    const isDone = await result.json();
+    const { isDone } = await result.json();
 
-    console.log(isDone);
+    return isDone;
   };
 
   return (
     <MailContext.Provider
-      value={ {
+      value={{
         editorState,
         setEditorState,
         handleSaveMailTemplate,
@@ -148,9 +152,9 @@ export const MailProvider = ({ children }) => {
         dataHtml,
         mailTemplates,
         submit,
-      } }
+      }}
     >
-      { children }
+      { children}
     </MailContext.Provider>
   );
 };

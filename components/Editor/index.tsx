@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   EditorState, RichUtils, Editor, getDefaultKeyBinding, KeyBindingUtil,
 } from 'draft-js';
@@ -9,7 +9,6 @@ const { hasCommandModifier } = KeyBindingUtil;
 
 const EditorComponent: React.FC<any> = () => {
   const { editorState, setEditorState } = useContext(MailContext);
-  const ref = useRef<any>(null);
 
   const onHandleChange = (state: EditorState) => {
     setEditorState(state);
@@ -31,10 +30,6 @@ const EditorComponent: React.FC<any> = () => {
     onHandleChange(RichUtils.toggleInlineStyle(editorState, 'CODE'));
   };
 
-  const handleFocus = () => {
-    ref.current?.focus();
-  };
-
   const keyBindingFn = (e: any): string | null => {
     if (e.keyCode === 83 /* `S` key */ && hasCommandModifier(e)) {
       return 'myeditor-save';
@@ -46,16 +41,16 @@ const EditorComponent: React.FC<any> = () => {
     <>
       <div className='bg-theme-50 w-full'>
         <div className='flex w-full mx-auto border-b-2 border-theme-2'>
-          <button onClick={ onBoldClick } className='p-3'><b>B</b></button>
-          <button onClick={ onUnderlineClick } className='p-3'>U</button>
-          <button onClick={ onItalicClick } className='p-3'><em>I</em></button>
-          <button onClick={ onCodeClick } className='p-3'>{ '< >' }</button>
+          <button onClick={onBoldClick} className='p-3'><b>B</b></button>
+          <button onClick={onUnderlineClick} className='p-3'>U</button>
+          <button onClick={onItalicClick} className='p-3'><em>I</em></button>
+          <button onClick={onCodeClick} className='p-3'>{'< >'}</button>
         </div>
-        <div ref={ ref } className='p-3' onClick={ handleFocus }>
+        <div className='p-3'>
           <Editor
-            editorState={ editorState }
-            onChange={ onHandleChange }
-            keyBindingFn={ keyBindingFn }
+            editorState={editorState}
+            onChange={onHandleChange}
+            keyBindingFn={keyBindingFn}
           />
         </div>
       </div>

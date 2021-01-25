@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button } from '@material-ui/core';
 import { Plus, Users } from 'react-feather';
 
 import TestSession from 'containers/Home/CreateTest';
+import { ProgressContext } from 'contexts/ProgressContext';
 
 const Home = () => {
   const [isOpen, setOpen] = useState(false);
+  const { onLoading, doneLoading } = useContext(ProgressContext);
 
   const handleClick = () => {
+    onLoading();
+
     setTimeout(() => {
       setOpen(true);
+      doneLoading();
     }, 500);
   };
 

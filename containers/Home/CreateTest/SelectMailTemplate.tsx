@@ -13,11 +13,11 @@ const SelectMailTemplate: React.FC<SelectMailTemplateProps> = () => {
 
   return (
     <div className='w-full'>
-      <SelectField label='Email Template' data={ mailTemplateId } onChange={ handleChangeTemplate }
+      <SelectField label='Email Template' data={mailTemplateId} onChange={handleChangeTemplate}
       >
         {
           mailTemplates.map((option) => (
-            <MenuItem key={ option.id } value={ option.id }>{ option.template }</MenuItem>
+            <MenuItem key={option.id} value={option.id}>{option.name}</MenuItem>
           ))
         }
       </SelectField>
