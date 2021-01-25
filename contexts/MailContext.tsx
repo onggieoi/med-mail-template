@@ -2,7 +2,9 @@ import { convertToHTML } from 'draft-convert';
 import { ContentState, EditorState } from 'draft-js';
 import React, { createContext, useEffect, useState } from 'react';
 
-import { IQuestion, IStudent } from 'interfaces';
+import { IStudent } from 'interfaces';
+
+import { mailTemplateEx } from 'utils/DataSample';
 
 interface IMailContext {
   editorState: EditorState;
@@ -10,12 +12,12 @@ interface IMailContext {
   preview: EditorState;
   subject: string;
   setSubject: Function;
-  questions: IQuestion[];
-  setQuestion: Function;
+  questionIds: number[];
+  handleChangeQuestion: Function;
   students: IStudent[];
   setStudents: Function;
-  mailTemplate: string;
-  setTemplate: Function;
+  mailTemplateId: number;
+  handleChangeTemplate: Function;
   dataHtml: string;
 }
 
@@ -23,7 +25,7 @@ export const MailContext = createContext({} as IMailContext);
 
 export const MailProvider = ({ children }) => {
   const [subject, setSubject] = useState('');
-  const [questions, setQuestion] = useState([] as IQuestion[]);
+  const [questionIds, setQuestion] = useState([] as number[]);
   const [students, setStudents] = useState([
     {
       id: 1, name: '', email: '', deadline: '',
@@ -31,7 +33,7 @@ export const MailProvider = ({ children }) => {
   ] as IStudent[]);
   const [dataHtml, setHtml] = useState('' as any);
 
-  const [mailTemplate, setTemplate] = useState('');
+  const [mailTemplateId, setTemplate] = useState(-1);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [preview, setPriview] = useState(EditorState.createEmpty());
 
@@ -41,8 +43,24 @@ export const MailProvider = ({ children }) => {
   }, [editorState]);
 
   useEffect(() => {
-    setEditorState(EditorState.createWithContent(ContentState.createFromText(mailTemplate)));
-  }, [mailTemplate]);
+    const choosenTemplate = mailTemplateEx.find((templateEx) => templateEx.id === mailTemplateId);
+
+    setEditorState(() => {
+      if (choosenTemplate?.id) {
+        return EditorState.createWithContent(ContentState.createFromText(choosenTemplate?.template));
+      }
+
+      return EditorState.createWithContent(ContentState.createFromText(''));
+    });
+  }, [mailTemplateId]);
+
+  const handleChangeTemplate = (val) => {
+    setTemplate(val);
+  };
+
+  const handleChangeQuestion = (val) => {
+    setQuestion(val);
+  };
 
   return (
     <MailContext.Provider
@@ -52,12 +70,12 @@ export const MailProvider = ({ children }) => {
         preview,
         subject,
         setSubject,
-        questions,
-        setQuestion,
+        questionIds,
+        handleChangeQuestion,
         students,
         setStudents,
-        mailTemplate,
-        setTemplate,
+        mailTemplateId,
+        handleChangeTemplate,
         dataHtml,
       }}
     >

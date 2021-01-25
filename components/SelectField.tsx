@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  FormControl, InputLabel, Select, makeStyles, MenuItem,
+  FormControl, InputLabel, Select, makeStyles,
 } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,39 +16,35 @@ const useStyles = makeStyles((theme) => ({
 
 interface ISelect {
   label: string;
-  options: any[];
   data: any;
-  setData: Function;
+  onChange: Function;
+  children: any;
 }
 
 const SelectField: React.FC<ISelect> = ({
-  label, options, data, setData,
+  label, data, onChange, children,
 }) => {
   const classes = useStyles();
 
-  const handleChange = (event) => {
-    setData(event.target.value);
+  const handleOnChange = (e) => {
+    e.preventDefault();
+
+    onChange(e.target.value);
   };
 
   return (
-    <div className='mt-5 w-full'>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id={label}>{label}</InputLabel>
-        <Select
-          labelId={label}
-          id="demo-simple-select-outlined"
-          value={data}
-          onChange={handleChange}
-          label={label}
-        >
-          {
-            options.map((option) => (
-              <MenuItem key={option.id} value={option.template}>{option?.template}</MenuItem>
-            ))
-          }
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl variant="outlined" className={classes.formControl}>
+      <InputLabel id={label}>{label}</InputLabel>
+      <Select
+        labelId={label}
+        id="demo-simple-select-outlined"
+        value={data}
+        onChange={handleOnChange}
+        label={label}
+      >
+        {children}
+      </Select>
+    </FormControl>
   );
 };
 

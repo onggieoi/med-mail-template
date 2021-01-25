@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  FormControl, InputLabel, Select, MenuItem, makeStyles, useTheme, Input, Chip,
+  FormControl, InputLabel, Select, makeStyles, Input, Chip,
 } from '@material-ui/core';
+import { questionsEx } from 'utils/DataSample';
 
 const useStyles = makeStyles(() => ({
   formControl: {
@@ -19,13 +20,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const getStyles = (name, personName, theme) => ({
-  fontWeight:
-    personName.indexOf(name) === -1
-      ? theme.typography.fontWeightRegular
-      : theme.typography.fontWeightMedium,
-});
-
 const MenuProps = {
   PaperProps: {
     style: {
@@ -37,19 +31,18 @@ const MenuProps = {
 
 interface ISelect {
   label: string;
-  options: any[];
-  data: any;
-  setData: Function;
+  data: any[];
+  onChange: Function;
+  children: any;
 }
 
 const SelectField: React.FC<ISelect> = ({
-  label, options, data, setData,
+  label, data, onChange, children,
 }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const handleChange = (event) => {
-    setData(event.target.value);
+    onChange(event.target.value);
   };
 
   return (
@@ -61,18 +54,19 @@ const SelectField: React.FC<ISelect> = ({
         input={<Input />}
         renderValue={(selected: any) => (
           <div className={classes.chips}>
-            {selected.map((value) => (
-              <Chip key={value} label={value} className={classes.chip} />
-            ))}
+            {
+              selected.map((value) => {
+                const question = questionsEx.find((ques) => ques.id === value);
+
+                return (
+                  <Chip key={value} label={question?.question} className={classes.chip} />
+                );
+              })}
           </div>
         )}
         MenuProps={MenuProps}
       >
-        {options.map((val) => (
-          <MenuItem key={val.id} value={val?.id} style={getStyles(val.id, data, theme)}>
-            {val?.question}
-          </MenuItem>
-        ))}
+        {children}
       </Select>
     </FormControl>
   );
