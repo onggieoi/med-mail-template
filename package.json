@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "next",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "type-check": "tsc",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./"

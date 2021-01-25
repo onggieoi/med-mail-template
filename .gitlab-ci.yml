@@ -48,4 +48,4 @@ deploy:
   script:
     - ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$PROD_SERVER_IP "docker pull registry.gitlab.com/onggieoi/med-challenge"
     - ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$PROD_SERVER_IP "docker stop med-challenge || true && docker rm med-challenge || true"
-    - ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$PROD_SERVER_IP "docker run -p 80:80 -d --name med-challenge registry.gitlab.com/onggieoi/med-challenge"
+    - ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$PROD_SERVER_IP "docker run -p 80:3000 -d --name med-challenge registry.gitlab.com/onggieoi/med-challenge"
